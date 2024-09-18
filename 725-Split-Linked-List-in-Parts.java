@@ -9,47 +9,39 @@
  * }
  */
 class Solution {
+    public int le(ListNode head){
+        int l=0;
+        while(head != null){
+            l++;
+            head=head.next;
+        }
+        return l;
+    }
     public ListNode[] splitListToParts(ListNode head, int k) {
-        ListNode[] a=new ListNode[k];
-        int s=0;
-        ListNode h=head;
-        while(h!=null){
-            h=h.next;
-            s++;
+        int len=le(head);
+        ListNode ans[]=new ListNode [k];
+        int a[]=new int[k];
+        int g=0;
+        while(len !=0){
+            a[g%k]+=1;
+            g++;
+            len--;
         }
-        h=head;
-        int n=s/k;
-        int f=s%k;
-        ListNode h1=h;
-        int i=0;
-        while(k-->0){
-            ListNode l=h1;
-            ListNode l1=l;
-            int n1=n;
-            if(f-->0){
-                n1+=1;
-                while(--n1>0&&l!=null){
-                    l=l.next;
-                }
-                 if(l==null){
-                    continue;
-                }
-                h1=l.next;
-                l.next=null;
-                a[i++]=l1;
+        ListNode dum;
+        for(int i=0;i<k;i++){
+            ListNode temp=head;
+            if(a[i]==0){
+                break;
             }
-            else{
-                while(--n1>0&&l!=null){
-                    l=l.next;
-                }
-                if(l==null){
-                    continue;
-                }
-                h1=l.next;
-                l.next=null;
-                a[i++]=l1;
+            while(temp.next!=null && a[i] >1){
+                temp=temp.next;
+                a[i]--;
             }
+            dum=temp.next;
+            temp.next=null;
+            ans[i]= head;
+            head=dum;
         }
-        return a;
+        return ans;
     }
 }
